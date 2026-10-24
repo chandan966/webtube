@@ -81,7 +81,7 @@ a {
 }
 
 .logo-icon {
-    background: #ff0033;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: white;
     border-radius: 7px;
     font-size: 14px;
