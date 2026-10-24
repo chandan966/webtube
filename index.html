@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YouTube-style video browsing frontend clone">
+    <title>YouTube Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://www.youtube.com/s/desktop/12a4b9a0/img/favicon_32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <button class="icon-button" id="menuBtn" aria-label="Toggle sidebar">☰</button>
+        <a class="logo" href="#" aria-label="YouTube home">
+            <span class="logo-icon">▶</span><span>YouTube</span>
+        </a>
+    </div>
+
+    <form class="search-container" id="searchForm">
+        <input type="search" id="searchInput" placeholder="Search" aria-label="Search videos">
+        <button class="search-btn" aria-label="Search">⌕</button>
+        <button type="button" class="icon-button voice-btn" aria-label="Voice search">🎙</button>
+    </form>
+
+    <div class="header-right">
+        <button class="create-btn" id="createBtn">＋ Create</button>
+        <button class="icon-button" aria-label="Notifications">🔔</button>
+        <button class="avatar" aria-label="Your account">C</button>
+    </div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+    <nav>
+        <a href="#" class="nav-item active" data-page="Home"><span>⌂</span> Home</a>
+        <a href="#" class="nav-item" data-page="Shorts"><span>⚡</span> Shorts</a>
+        <a href="#" class="nav-item" data-page="Subscriptions"><span>▣</span> Subscriptions</a>
+
+        <hr>
+
+        <h3>You <span>›</span></h3>
+        <a href="#" class="nav-item" data-page="History"><span>◷</span> History</a>
+        <a href="#" class="nav-item" data-page="Playlists"><span>☷</span> Playlists</a>
+        <a href="#" class="nav-item" data-page="Your videos"><span>▻</span> Your videos</a>
+        <a href="#" class="nav-item" data-page="Watch later"><span>◴</span> Watch later</a>
+        <a href="#" class="nav-item" data-page="Liked videos"><span>♡</span> Liked videos</a>
+
+        <hr>
+
+        <h3>Explore</h3>
+        <a href="#" class="nav-item" data-category="Trending"><span>🔥</span> Trending</a>
+        <a href="#" class="nav-item" data-category="Music"><span>♫</span> Music</a>
+        <a href="#" class="nav-item" data-category="Gaming"><span>🎮</span> Gaming</a>
+        <a href="#" class="nav-item" data-category="News"><span>▤</span> News</a>
+        <a href="#" class="nav-item" data-category="Sports"><span>⚽</span> Sports</a>
+
+        <hr>
+
+        <p class="sidebar-footer">About Press Copyright<br>
+        Contact us Creators<br>
+        Advertise Developers<br><br>
+        Terms Privacy Policy & Safety</p>
+        <p class="copyright">© 2026 Video Clone</p>
+    </nav>
+</aside>
+
+<main class="main-content" id="mainContent">
+    <div class="category-bar" id="categoryBar">
+        <button class="category active" data-category="All">All</button>
+        <button class="category" data-category="Music">Music</button>
+        <button class="category" data-category="Gaming">Gaming</button>
+        <button class="category" data-category="Live">Live</button>
+        <button class="category" data-category="Programming">Programming</button>
+        <button class="category" data-category="News">News</button>
+        <button class="category" data-category="Sports">Sports</button>
+        <button class="category" data-category="Podcasts">Podcasts</button>
+        <button class="category" data-category="Recently uploaded">Recently uploaded</button>
+    </div>
+
+    <section class="video-grid" id="videoGrid"></section>
+</main>
+
+<div class="player-overlay" id="playerOverlay" hidden>
+    <div class="player-box">
+        <button class="close-player" id="closePlayer" aria-label="Close video">✕</button>
+        <div class="player-frame" id="playerFrame"></div>
+        <h2 id="playerTitle"></h2>
+        <p id="playerChannel"></p>
+    </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
+```
