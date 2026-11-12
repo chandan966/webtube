@@ -1,101 +1,510 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WebTube video browsing">
-    <title>WebTube</title>
+    <meta name="description" content="WebTube — Modern, Next-Generation YouTube Web Application">
+    <title>WebTube — Watch, Share, and Discover</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<!-- Top Navigation Header -->
 <header class="header">
     <div class="header-left">
-        <button class="icon-button" id="menuBtn" aria-label="Toggle sidebar">☰</button>
-        <a class="logo" href="#" aria-label="WebTube home">
-            <span class="logo-icon">▶</span><span>WebTube</span>
+        <button class="icon-btn" id="menuBtn" aria-label="Toggle navigation menu" title="Menu">
+            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <a class="logo" href="#" id="homeLogo" aria-label="WebTube Home">
+            <div class="logo-badge">
+                <svg viewBox="0 0 24 24" class="logo-play"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <span class="logo-text">Web<span class="logo-accent">Tube</span></span>
+            <span class="logo-country">IN</span>
         </a>
     </div>
 
-    <form class="search-container" id="searchForm">
-        <input type="search" id="searchInput" placeholder="Search" aria-label="Search videos">
-        <button class="search-btn" aria-label="Search">⌕</button>
-        <button type="button" class="icon-button voice-btn" aria-label="Voice search">🎙</button>
-    </form>
+    <div class="header-center">
+        <form class="search-form" id="searchForm" role="search">
+            <div class="search-input-wrap">
+                <input type="search" id="searchInput" placeholder="Search videos, channels, or topics" autocomplete="off" aria-label="Search videos">
+                <button type="button" class="clear-search-btn" id="clearSearchBtn" aria-label="Clear search text" hidden>✕</button>
+                <div class="search-suggestions" id="searchSuggestions" hidden></div>
+            </div>
+            <button type="submit" class="search-submit-btn" aria-label="Search" title="Search">
+                <svg viewBox="0 0 24 24" class="svg-icon"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+        </form>
+        <button type="button" class="icon-btn voice-btn" id="voiceSearchBtn" aria-label="Search with your voice" title="Search with your voice">
+            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+    </div>
 
     <div class="header-right">
-        <button class="create-btn" id="createBtn">＋ Create</button>
-        <button class="icon-button" aria-label="Notifications">🔔</button>
-        <button class="avatar" aria-label="Your account">C</button>
+        <button class="create-btn" id="createBtn" title="Create or add video">
+            <svg viewBox="0 0 24 24" class="svg-icon btn-icon"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            <span>Create</span>
+        </button>
+        <button class="icon-btn theme-toggle" id="themeToggleBtn" aria-label="Toggle dark / light theme" title="Toggle Theme">
+            <svg viewBox="0 0 24 24" class="svg-icon moon-icon"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+            <svg viewBox="0 0 24 24" class="svg-icon sun-icon"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+        </button>
+        <button class="icon-btn" id="notifBtn" aria-label="Notifications" title="Notifications">
+            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </button>
+        <button class="avatar-btn" id="profileBtn" aria-label="User Account" title="Account">C</button>
     </div>
 </header>
 
+<!-- Collapsible Sidebar -->
 <aside class="sidebar" id="sidebar">
-    <nav>
-        <a href="#" class="nav-item active" data-page="Home"><span>⌂</span> Home</a>
-        <a href="#" class="nav-item" data-page="Shorts"><span>⚡</span> Shorts</a>
-        <a href="#" class="nav-item" data-page="Subscriptions"><span>▣</span> Subscriptions</a>
+    <nav class="sidebar-nav">
+        <div class="nav-section">
+            <button class="nav-item active" data-page="Home">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" data-page="Shorts">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="m17.77 10.32-1.2-.57 1.13-.67a4.99 4.99 0 0 0 .5-8.54 5 5 0 0 0-5.7.53L6.23 6.94A5 5 0 0 0 5.8 15.6l1.2.56-1.13.68a4.99 4.99 0 0 0-.5 8.54 5 5 0 0 0 5.7-.54l6.27-5.81a5 5 0 0 0 .43-8.71zM10 14.65v-5.3L15 12l-5 2.65z"/></svg>
+                <span class="nav-label">Shorts</span>
+            </button>
+            <button class="nav-item" data-page="Subscriptions">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4-6-3.27v6.53L16 16z"/></svg>
+                <span class="nav-label">Subscriptions</span>
+            </button>
+        </div>
 
-        <hr>
+        <hr class="nav-divider">
 
-        <h3>You <span>›</span></h3>
-        <a href="#" class="nav-item" data-page="History"><span>◷</span> History</a>
-        <a href="#" class="nav-item" data-page="Playlists"><span>☷</span> Playlists</a>
-        <a href="#" class="nav-item" data-page="Your videos"><span>▻</span> Your videos</a>
-        <a href="#" class="nav-item" data-page="Watch later"><span>◴</span> Watch later</a>
-        <a href="#" class="nav-item" data-page="Liked videos"><span>♡</span> Liked videos</a>
+        <div class="nav-section">
+            <div class="nav-heading">
+                <span>You</span>
+                <svg viewBox="0 0 24 24" class="section-chevron"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </div>
+            <button class="nav-item" data-page="History">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                <span class="nav-label">History</span>
+            </button>
+            <button class="nav-item" data-page="Watch Later">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+                <span class="nav-label">Watch Later</span>
+            </button>
+            <button class="nav-item" data-page="Liked Videos">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                <span class="nav-label">Liked Videos</span>
+            </button>
+        </div>
 
-        <hr>
+        <hr class="nav-divider">
 
-        <h3>Explore</h3>
-        <a href="#" class="nav-item" data-category="Trending"><span>🔥</span> Trending</a>
-        <a href="#" class="nav-item" data-category="Music"><span>♫</span> Music</a>
-        <a href="#" class="nav-item" data-category="Gaming"><span>🎮</span> Gaming</a>
-        <a href="#" class="nav-item" data-category="News"><span>▤</span> News</a>
-        <a href="#" class="nav-item" data-category="Sports"><span>⚽</span> Sports</a>
+        <div class="nav-section">
+            <div class="nav-heading"><span>Explore</span></div>
+            <button class="nav-item" data-category="Trending">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="m19.48 12.35-1.57-4.08-1.58 4.08h3.15zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <span class="nav-label">Trending</span>
+            </button>
+            <button class="nav-item" data-category="Music">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                <span class="nav-label">Music</span>
+            </button>
+            <button class="nav-item" data-category="Gaming">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <span class="nav-label">Gaming</span>
+            </button>
+            <button class="nav-item" data-category="News">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                <span class="nav-label">News</span>
+            </button>
+            <button class="nav-item" data-category="Sports">
+                <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.58.07-1.14.19-1.68l4.47 4.47v.71c0 1.1.9 2 2 2v1.5c.44.09.88.14 1.34.14v-2.14l-3-3v-1.5l5-5v1.5l3.5 3.5V17c1.39-1.14 2.37-2.79 2.7-4.66.19.54.3 1.12.3 1.72 0 4.41-3.59 8-8 8z"/></svg>
+                <span class="nav-label">Sports</span>
+            </button>
+        </div>
 
-        <hr>
+        <hr class="nav-divider">
 
-        <p class="sidebar-footer">About Press Copyright<br>
-        Contact us Creators<br>
-        Advertise Developers<br><br>
-        Terms Privacy Policy & Safety</p>
-        <p class="copyright">© 2026 Video Clone</p>
+        <div class="sidebar-subscriptions" id="sidebarSubscriptions">
+            <div class="nav-heading"><span>Subscriptions</span></div>
+            <div id="subChannelsList" class="sub-channels-list">
+                <!-- Subscribed channels dynamically rendered here -->
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>About Press Copyright<br>Contact us Creators<br>Advertise Developers</p>
+            <p class="terms">Terms Privacy Policy & Safety<br>How WebTube works<br>Test new features</p>
+            <p class="copyright">© 2026 WebTube LLC</p>
+        </div>
     </nav>
 </aside>
 
+<!-- Main Container -->
 <main class="main-content" id="mainContent">
-    <div class="category-bar" id="categoryBar">
-        <button class="category active" data-category="All">All</button>
-        <button class="category" data-category="Music">Music</button>
-        <button class="category" data-category="Gaming">Gaming</button>
-        <button class="category" data-category="Live">Live</button>
-        <button class="category" data-category="Programming">Programming</button>
-        <button class="category" data-category="News">News</button>
-        <button class="category" data-category="Sports">Sports</button>
-        <button class="category" data-category="Podcasts">Podcasts</button>
-        <button class="category" data-category="Recently uploaded">Recently uploaded</button>
+    
+    <!-- Feed View (Home / Browse / Search) -->
+    <div class="browse-view" id="browseView">
+        <!-- Sticky Topic Filter Bar -->
+        <div class="category-wrapper">
+            <button class="category-scroll-btn left" id="catScrollLeft" aria-label="Scroll topics left" hidden>‹</button>
+            <div class="category-bar" id="categoryBar">
+                <button class="category active" data-category="All">All</button>
+                <button class="category" data-category="Programming">Programming</button>
+                <button class="category" data-category="Music">Music</button>
+                <button class="category" data-category="Gaming">Gaming</button>
+                <button class="category" data-category="Tech">Tech</button>
+                <button class="category" data-category="Live">Live</button>
+                <button class="category" data-category="Science">Science</button>
+                <button class="category" data-category="News">News</button>
+                <button class="category" data-category="Sports">Sports</button>
+                <button class="category" data-category="Podcasts">Podcasts</button>
+                <button class="category" data-category="Design">Design</button>
+                <button class="category" data-category="Travel">Travel</button>
+                <button class="category" data-category="Recently uploaded">Recently uploaded</button>
+            </div>
+            <button class="category-scroll-btn right" id="catScrollRight" aria-label="Scroll topics right">›</button>
+        </div>
+
+        <!-- Section Banner / Info (Visible on History, Subscriptions, Liked) -->
+        <div class="page-banner" id="pageBanner" hidden>
+            <div class="page-banner-info">
+                <div class="page-banner-icon" id="pageBannerIcon"></div>
+                <div>
+                    <h1 class="page-banner-title" id="pageBannerTitle">Library</h1>
+                    <p class="page-banner-subtitle" id="pageBannerSubtitle"></p>
+                </div>
+            </div>
+            <div class="page-banner-actions" id="pageBannerActions"></div>
+        </div>
+
+        <!-- Video Grid -->
+        <section class="video-grid" id="videoGrid" aria-label="Videos"></section>
     </div>
 
-    <section class="video-grid" id="videoGrid"></section>
+    <!-- YouTube Watch Page View -->
+    <div class="watch-view" id="watchView" hidden>
+        <div class="watch-container">
+            <div class="watch-primary">
+                <div class="player-wrapper">
+                    <button class="back-to-browse-btn" id="backToBrowseBtn" aria-label="Back to browse">
+                        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                        <span>Back</span>
+                    </button>
+                    <div class="player-aspect" id="playerAspect">
+                        <!-- Responsive embedded player -->
+                    </div>
+                </div>
+
+                <div class="video-headline">
+                    <h1 class="watch-title" id="watchTitle"></h1>
+                    
+                    <div class="watch-toolbar">
+                        <!-- Channel Profile & Subscribe -->
+                        <div class="watch-channel-row">
+                            <div class="watch-channel-avatar" id="watchChannelAvatar"></div>
+                            <div class="watch-channel-meta">
+                                <div class="watch-channel-name" id="watchChannelName">
+                                    <span>Channel</span>
+                                    <svg viewBox="0 0 24 24" class="verified-badge" title="Verified"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                </div>
+                                <span class="watch-subs-count" id="watchSubsCount">1.2M subscribers</span>
+                            </div>
+                            <button class="subscribe-btn" id="watchSubscribeBtn">Subscribe</button>
+                        </div>
+
+                        <!-- Video Actions (Like, Dislike, Share, Save) -->
+                        <div class="watch-actions">
+                            <div class="like-dislike-group">
+                                <button class="action-btn like-btn" id="watchLikeBtn" title="I like this">
+                                    <svg viewBox="0 0 24 24" class="svg-icon"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                                    <span id="watchLikeCount">12K</span>
+                                </button>
+                                <span class="action-divider"></span>
+                                <button class="action-btn dislike-btn" id="watchDislikeBtn" title="Dislike">
+                                    <svg viewBox="0 0 24 24" class="svg-icon"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.58-6.59c.37-.36.59-.86.59-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                                </button>
+                            </div>
+
+                            <button class="action-btn" id="watchShareBtn" title="Share video">
+                                <svg viewBox="0 0 24 24" class="svg-icon"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                                <span>Share</span>
+                            </button>
+
+                            <button class="action-btn" id="watchSaveBtn" title="Save to Watch Later">
+                                <svg viewBox="0 0 24 24" class="svg-icon"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15-5-2.18L7 18V5h10v13z"/></svg>
+                                <span>Save</span>
+                            </button>
+
+                            <button class="action-btn" id="watchDownloadBtn" title="Download">
+                                <svg viewBox="0 0 24 24" class="svg-icon"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Description Box -->
+                <div class="video-description-box" id="videoDescBox">
+                    <div class="desc-stats">
+                        <span id="descViews">0 views</span>
+                        <span id="descTime">Just now</span>
+                        <span class="desc-tags" id="descTags">#WebDevelopment #Coding #Tech</span>
+                    </div>
+                    <div class="desc-body" id="descBody">
+                        <p id="descText"></p>
+                    </div>
+                    <button class="desc-expand-btn" id="descExpandBtn">Show more</button>
+                </div>
+
+                <!-- Interactive Comments Section -->
+                <section class="comments-section" id="commentsSection">
+                    <div class="comments-header">
+                        <h2 class="comments-count" id="commentsCount">0 Comments</h2>
+                        <button class="comments-sort-btn">
+                            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+                            <span>Sort by</span>
+                        </button>
+                    </div>
+
+                    <!-- Add Comment Input Box -->
+                    <div class="add-comment-row">
+                        <div class="comment-user-avatar">C</div>
+                        <form class="comment-form" id="commentForm">
+                            <input type="text" id="commentInput" placeholder="Add a comment..." autocomplete="off">
+                            <div class="comment-form-actions" id="commentActions" hidden>
+                                <button type="button" class="btn-cancel" id="cancelCommentBtn">Cancel</button>
+                                <button type="submit" class="btn-submit" id="submitCommentBtn" disabled>Comment</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="comments-list" id="commentsList"></div>
+                </section>
+            </div>
+
+            <!-- Watch Page Related Videos Column -->
+            <aside class="watch-secondary">
+                <div class="related-chips">
+                    <button class="related-chip active">All</button>
+                    <button class="related-chip">Related</button>
+                    <button class="related-chip">From channel</button>
+                </div>
+                <div class="related-videos-list" id="relatedVideosList"></div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- YouTube Shorts View -->
+    <div class="shorts-view" id="shortsView" hidden>
+        <div class="shorts-reel-container">
+            <div class="shorts-card" id="activeShortCard">
+                <div class="shorts-video-frame" id="shortsVideoFrame"></div>
+                <div class="shorts-overlay-info">
+                    <div class="shorts-channel-row">
+                        <div class="shorts-avatar" id="shortsAvatar">C</div>
+                        <span class="shorts-channel-name" id="shortsChannelName">@techtrends</span>
+                        <button class="shorts-sub-btn" id="shortsSubBtn">Subscribe</button>
+                    </div>
+                    <p class="shorts-title" id="shortsTitle">Mind-blowing Tech Tricks You Didn't Know! 🚀</p>
+                    <div class="shorts-sound">
+                        <svg viewBox="0 0 24 24" class="svg-icon sound-icon"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        <span>Original Audio - WebTube Trending Sound</span>
+                    </div>
+                </div>
+
+                <div class="shorts-actions-bar">
+                    <button class="shorts-action-btn" id="shortLikeBtn">
+                        <div class="shorts-btn-circle">
+                            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                        </div>
+                        <span id="shortLikeCount">84K</span>
+                    </button>
+                    <button class="shorts-action-btn" id="shortDislikeBtn">
+                        <div class="shorts-btn-circle">
+                            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.58-6.59c.37-.36.59-.86.59-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                        </div>
+                        <span>Dislike</span>
+                    </button>
+                    <button class="shorts-action-btn" id="shortCommentBtn">
+                        <div class="shorts-btn-circle">
+                            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+                        </div>
+                        <span>1.4K</span>
+                    </button>
+                    <button class="shorts-action-btn" id="shortShareBtn">
+                        <div class="shorts-btn-circle">
+                            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+                        </div>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="shorts-nav-arrows">
+                <button class="shorts-arrow-btn" id="shortsPrevBtn" title="Previous Short">▲</button>
+                <button class="shorts-arrow-btn" id="shortsNextBtn" title="Next Short">▼</button>
+            </div>
+        </div>
+    </div>
 </main>
 
-<div class="player-overlay" id="playerOverlay" hidden>
-    <div class="player-box">
-        <button class="close-player" id="closePlayer" aria-label="Close video">✕</button>
-        <div class="player-frame" id="playerFrame"></div>
-        <h2 id="playerTitle"></h2>
-        <p id="playerChannel"></p>
+<!-- Mobile Bottom Navigation Bar -->
+<nav class="mobile-bottom-nav">
+    <button class="mobile-nav-btn active" data-page="Home">
+        <svg viewBox="0 0 24 24" class="mobile-nav-icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Home</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="Shorts">
+        <svg viewBox="0 0 24 24" class="mobile-nav-icon"><path d="m17.77 10.32-1.2-.57 1.13-.67a4.99 4.99 0 0 0 .5-8.54 5 5 0 0 0-5.7.53L6.23 6.94A5 5 0 0 0 5.8 15.6l1.2.56-1.13.68a4.99 4.99 0 0 0-.5 8.54 5 5 0 0 0 5.7-.54l6.27-5.81a5 5 0 0 0 .43-8.71zM10 14.65v-5.3L15 12l-5 2.65z"/></svg>
+        <span>Shorts</span>
+    </button>
+    <button class="mobile-nav-btn" id="mobileCreateBtn">
+        <div class="mobile-create-icon">+</div>
+        <span>Create</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="Subscriptions">
+        <svg viewBox="0 0 24 24" class="mobile-nav-icon"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4-6-3.27v6.53L16 16z"/></svg>
+        <span>Subscriptions</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="History">
+        <svg viewBox="0 0 24 24" class="mobile-nav-icon"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+        <span>You</span>
+    </button>
+</nav>
+
+<!-- Create / Upload Video Modal -->
+<div class="modal-backdrop" id="createModal" hidden>
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Add New Video to WebTube</h3>
+            <button class="modal-close-btn" id="closeCreateModal" aria-label="Close modal">✕</button>
+        </div>
+        <form class="modal-body" id="createVideoForm">
+            <div class="form-group">
+                <label for="createUrl">YouTube URL or Video ID <span class="required">*</span></label>
+                <input type="text" id="createUrl" placeholder="e.g. https://youtu.be/dQw4w9WgXcQ or dQw4w9WgXcQ" required>
+                <small class="form-hint">Paste any standard YouTube video URL or 11-character video ID</small>
+            </div>
+            <div class="form-group">
+                <label for="createTitle">Video Title <span class="required">*</span></label>
+                <input type="text" id="createTitle" placeholder="Catchy title for the video" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="createChannel">Channel Name <span class="required">*</span></label>
+                    <input type="text" id="createChannel" placeholder="e.g. Code Studio" required>
+                </div>
+                <div class="form-group">
+                    <label for="createCategory">Category <span class="required">*</span></label>
+                    <select id="createCategory" required>
+                        <option value="Programming">Programming</option>
+                        <option value="Music">Music</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Science">Science</option>
+                        <option value="News">News</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Design">Design</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="createDuration">Duration</label>
+                    <input type="text" id="createDuration" placeholder="e.g. 14:20" value="10:00">
+                </div>
+                <div class="form-group">
+                    <label for="createViews">Initial Views</label>
+                    <input type="text" id="createViews" placeholder="e.g. 1.2K views" value="1.5K views">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="cancelCreateBtn">Cancel</button>
+                <button type="submit" class="btn-primary">Add Video</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<div class="toast" id="toast" role="status"></div>
+<!-- Share Video Modal -->
+<div class="modal-backdrop" id="shareModal" hidden>
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Share</h3>
+            <button class="modal-close-btn" id="closeShareModal" aria-label="Close modal">✕</button>
+        </div>
+        <div class="modal-body share-body">
+            <div class="share-socials">
+                <button class="social-share-btn whatsapp" id="shareWhatsApp"><span>WhatsApp</span></button>
+                <button class="social-share-btn twitter" id="shareTwitter"><span>X / Twitter</span></button>
+                <button class="social-share-btn facebook" id="shareFacebook"><span>Facebook</span></button>
+                <button class="social-share-btn reddit" id="shareReddit"><span>Reddit</span></button>
+                <button class="social-share-btn email" id="shareEmail"><span>Email</span></button>
+            </div>
+            <div class="share-link-box">
+                <input type="text" id="shareLinkInput" readonly>
+                <button class="copy-link-btn" id="copyShareLinkBtn">Copy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Voice Search Listening Overlay -->
+<div class="voice-modal-backdrop" id="voiceModal" hidden>
+    <div class="voice-modal-card">
+        <button class="voice-close-btn" id="closeVoiceModal">✕</button>
+        <h2 id="voiceModalStatus">Listening...</h2>
+        <div class="voice-pulse-ring">
+            <div class="voice-pulse-circle">
+                <svg viewBox="0 0 24 24" class="voice-modal-icon"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+            </div>
+        </div>
+        <p class="voice-subtext" id="voiceSubtext">Say something like "JavaScript tutorials" or "Relaxing music"</p>
+    </div>
+</div>
+
+<!-- Quick Card Context Menu -->
+<div class="context-menu" id="cardContextMenu" hidden>
+    <button class="menu-item" id="menuWatchLater">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+        <span>Save to Watch later</span>
+    </button>
+    <button class="menu-item" id="menuShare">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>
+        <span>Share</span>
+    </button>
+    <button class="menu-item" id="menuNotInterested">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>Not interested</span>
+    </button>
+</div>
+
+<!-- User Account Profile Dropdown -->
+<div class="profile-dropdown" id="profileDropdown" hidden>
+    <div class="profile-header">
+        <div class="profile-avatar-lg">C</div>
+        <div class="profile-meta">
+            <h4>Chandan</h4>
+            <p>@chandandev · WebTube Pro</p>
+        </div>
+    </div>
+    <hr class="nav-divider">
+    <div class="profile-menu">
+        <button class="profile-menu-item" data-action="profile">Your channel</button>
+        <button class="profile-menu-item" data-action="theme">Appearance: Toggle Theme</button>
+        <button class="profile-menu-item" data-action="history">Watch History</button>
+        <button class="profile-menu-item" data-action="clear-data">Reset Local Demo Data</button>
+    </div>
+</div>
+
+<!-- Modern Toast Notification -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script src="script.js"></script>
 </body>
 </html>
-```
